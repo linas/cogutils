@@ -105,6 +105,19 @@ StandardException& StandardException::operator=(const StandardException& ex)
     return *this;
 }
 
+StandardException::StandardException(const char *trace, const char* fmt, ...)
+{
+    va_list  ap;
+    va_start(ap, fmt);
+    parse_error_message(trace, fmt, ap);
+    va_end(ap);
+}
+
+StandardException::StandardException(const char *trace, const char* fmt, va_list ap)
+{
+    parse_error_message(trace, fmt, ap);
+}
+
 StandardException::~StandardException() _GLIBCXX_USE_NOEXCEPT
 {
     // clear memory
@@ -130,100 +143,6 @@ void StandardException::set_message(const char * msg) const
 
 /*
  * ----------------------------------------------------------------------
- * RuntimeException class
- * ----------------------------------------------------------------------
- */
-RuntimeException::RuntimeException(const char *trace, const char* fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-RuntimeException::RuntimeException(const char *trace, const char* fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
-}
-
-RuntimeException::RuntimeException()
-{
-}
-
-/*
- * ----------------------------------------------------------------------
- * SyntaxException class
- * ----------------------------------------------------------------------
- */
-SyntaxException::SyntaxException(const char * trace, const char * fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-SyntaxException::SyntaxException(const char * trace, const char * fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
-}
-
-/*
- * ----------------------------------------------------------------------
- * IOException class
- * ----------------------------------------------------------------------
- */
-IOException::IOException(const char * trace, const char * fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-IOException::IOException(const char * trace, const char * fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
-}
-
-/*
- * ----------------------------------------------------------------------
- * ComboException class
- * ----------------------------------------------------------------------
- */
-ComboException::ComboException(const char * trace, const char * fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-ComboException::ComboException(const char* trace, const char* fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
-}
-
-/*
- * ----------------------------------------------------------------------
- * IndexErrorException class
- * ----------------------------------------------------------------------
- */
-IndexErrorException::IndexErrorException(const char * trace, const char * fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-IndexErrorException::IndexErrorException(const char* trace, const char* fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
-}
-
-/*
- * ----------------------------------------------------------------------
  * InvalidException class
  * ----------------------------------------------------------------------
  */
@@ -238,60 +157,6 @@ InvalidParamException::InvalidParamException(const char * trace, const char * fm
 InvalidParamException::InvalidParamException(const char* trace, const char* fmt, va_list ap)
 {
     parse_error_message(trace, fmt, ap, false);
-}
-
-/*
- * ----------------------------------------------------------------------
- * InconsistenceException class
- * ----------------------------------------------------------------------
- */
-InconsistenceException::InconsistenceException(const char * trace, const char * fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-InconsistenceException::InconsistenceException(const char* trace, const char* fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
-}
-
-/*
- * ----------------------------------------------------------------------
- * FatalErrorException class
- * ----------------------------------------------------------------------
- */
-FatalErrorException::FatalErrorException(const char * trace, const char * fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-FatalErrorException::FatalErrorException(const char* trace, const char* fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
-}
-
-/*
- * ----------------------------------------------------------------------
- * NetworkException class
- * ----------------------------------------------------------------------
- */
-NetworkException::NetworkException(const char * trace, const char * fmt, ...)
-{
-    va_list  ap;
-    va_start(ap, fmt);
-    parse_error_message(trace, fmt, ap);
-    va_end(ap);
-}
-
-NetworkException::NetworkException(const char* trace, const char* fmt, va_list ap)
-{
-    parse_error_message(trace, fmt, ap);
 }
 
 /*

@@ -67,6 +67,10 @@ public:
     StandardException();
     StandardException(const StandardException&);
     StandardException& operator=(const StandardException&);
+
+    StandardException(const char* trace, const char* msg, ...);
+    StandardException(const char* trace, const char* msg, va_list);
+
     virtual ~StandardException() _GLIBCXX_USE_NOEXCEPT;
     virtual const char* what() const _GLIBCXX_USE_NOEXCEPT {
         return get_message();
@@ -97,106 +101,37 @@ public:
  * Generic exception to be called in runtime, whenever an unexpected
  * condition is detected.
  */
-class RuntimeException : public StandardException
-{
-public:
-    /**
-     * Generic exception to be called in runtime, whenever an
-     * unexpected condition is detected.
-     *
-     * @param Exception message in printf standard format.
-     */
-    RuntimeException(const char*, const char*, ...);
-    RuntimeException(const char*, const char*, va_list);
-
-    /**
-     * Default constructor used for inheritance
-     */
-    RuntimeException();
-
-}; // RuntimeException
+class RuntimeException : public StandardException {};
 
 /**
  * Exception to be thrown when a syntax error is detected.
  */
-class SyntaxException : public RuntimeException
-{
-public:
-    /**
-     * Constructor
-     *
-     * @param Trace information (filename:line-number). Use TRACE_INFO
-     *        macro.
-     * @param Exception message in printf standard format.
-     */
-    SyntaxException(const char*, const char*, ...);
-    SyntaxException(const char*, const char*, va_list);
-
-}; // SyntaxException
+class SyntaxException : public RuntimeException {};
 
 /**
  * Exception to be thrown when an I/O operation (reading, writing,
  * open) fails.
  */
-class IOException : public RuntimeException
-{
-public:
-    /**
-     * Constructor
-     *
-     * @param Trace information (filename:line-number). Use TRACE_INFO
-     * macro.
-     * @param Exception message in printf standard format.
-     */
-    IOException(const char*, const char*, ...);
-    IOException(const char*, const char*, va_list);
-
-}; // IOException
+class IOException : public RuntimeException {};
 
 /**
  * Exception to be thrown when a Combo operation (parsing, executing)
  * fails.
  */
-class ComboException : public RuntimeException
-{
-public:
-    /**
-     * Constructor
-     *
-     * @param Trace information (filename:line-number). Use TRACE_INFO
-     * macro.
-     * @param Exception message in printf standard format.
-     */
-    ComboException(const char*, const char*, ...);
-    ComboException(const char*, const char*, va_list);
-
-}; // ComboException
+class ComboException : public RuntimeException {};
 
 /**
  * Exception to be thrown when an out of range index is used.
  */
-class IndexErrorException : public RuntimeException
-{
-public:
-
-    /**
-     * Constructor
-     *
-     * @param Trace information (filename:line-number). Use TRACE_INFO
-     *        macro.
-     * @param Exception message in printf standard format.
-     */
-    IndexErrorException(const char*, const char*, ...);
-    IndexErrorException(const char*, const char*, va_list);
-
-}; // IndexErrorException
+class IndexErrorException : public RuntimeException {};
 
 /**
  * Exception to be thrown when an invalid parameter is used within a
  * function or an object initalization.
  *
- * This exception will not log an error when thrown, because the
- * exception must be handled inside the code.
+ * Unlike almost all other exceptions, this exception will not log an
+ * error when thrown. It is expected that someone will catch and handle
+ * this exception.
  */
 class InvalidParamException : public RuntimeException
 {
@@ -217,66 +152,26 @@ public:
  * Exception to be thrown when a consistency check (equal to, different,
  * etc.) fails.
  */
-class InconsistenceException : public RuntimeException
-{
-public:
-    /**
-     * Constructor
-     *
-     * @param Trace information (filename:line-number). Use TRACE_INFO
-     * macro.
-     * @param Exception message in printf standard format.
-     */
-    InconsistenceException(const char*, const char*, ...);
-    InconsistenceException(const char*, const char*, va_list);
-
-}; // InconsistenceException
+class InconsistenceException : public RuntimeException {};
 
 /**
  * Exception to be called when an unrecoverable error has occured.
  * When this exception is caught, a stack trace must be generated
  * and provided to the user (e.g. saved to a log file).
  */
-class FatalErrorException : public StandardException
-{
-public:
-    /**
-     * Constructor
-     *
-     * @param Trace information (filename:line-number). Use TRACE_INFO
-     * macro.
-     * @param Exception message in printf standard format.
-     */
-    FatalErrorException(const char*, const char*, ...);
-    FatalErrorException(const char*, const char*, va_list);
-
-}; // FatalErrorException
+class FatalErrorException : public StandardException {};
 
 /**
  * Exception to be called when a network error  has occured.
  * When this exception is caught, a stack trace must be generated
  * and provided to the user (e.g. saved to a log file).
  */
-class NetworkException : public StandardException
-{
-public:
-    /**
-     * Constructor
-     *
-     * @param Trace information (filename:line-number). Use TRACE_INFO
-     * macro.
-     * @param Exception message in printf standard format.
-     */
-    NetworkException(const char*, const char*, ...);
-    NetworkException(const char*, const char*, va_list);
-
-}; // NetworkException
-
+class NetworkException : public StandardException {};
 
 /**
  * Exception to be called when an assertion fails.
- * When this exception is caught, a stack trace must be generated
- * and provided to the user (e.g. saved to a log file).
+ * Unlike almost all other exceptions, thise one does not
+ * log the called location. (why???)
  */
 class AssertionException : public StandardException
 {
